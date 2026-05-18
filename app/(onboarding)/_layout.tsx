@@ -7,6 +7,7 @@ import { IconButton } from '../../components/ui/Button';
 import { colors } from '../../constants/colors';
 import { spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
+import { StatusBar } from 'expo-status-bar';
 
 const stepTitles: Record<number, string> = {
   1: 'Choose your avatar',
@@ -30,6 +31,7 @@ export default function OnboardingLayout() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <StatusBar style="dark" />
       <OnboardingBar currentStep={step} totalSteps={6} />
 
       <View style={styles.header}>
