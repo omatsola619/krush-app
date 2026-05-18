@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     height: 56,
-    borderRadius: 28,
+    borderRadius: 14,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   secondaryBtn: {
     height: 56,
-    borderRadius: 28,
+    borderRadius: 14,
     backgroundColor: '#201560',
     justifyContent: 'center',
     alignItems: 'center',
