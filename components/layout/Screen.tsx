@@ -12,8 +12,11 @@ interface ScreenProps {
 }
 
 export function Screen({ children, style, noPadding = false, edges = ['top', 'bottom'] }: ScreenProps) {
+  const flattenedStyle = StyleSheet.flatten(style);
+  const backgroundColor = flattenedStyle?.backgroundColor || colors.bgPrimary;
+
   return (
-    <SafeAreaView style={styles.safeArea} edges={edges}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor }]} edges={edges}>
       <View style={[styles.container, !noPadding && styles.padding, style]}>
         {children}
       </View>

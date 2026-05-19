@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -17,7 +17,7 @@ export default function HomeScreen() {
       chemistry: '72% chemistry',
       time: 'yesterday',
       percentage: '72%',
-      avatarId: 3,
+      avatarId: 6,
       badgeLabel: 'Matched',
       badgeBg: '#E2F8EE',
       badgeText: '#10B981',
@@ -30,102 +30,106 @@ export default function HomeScreen() {
       chemistry: '58% chemistry',
       time: '2 days ago',
       percentage: '58%',
-      avatarId: 6,
+      avatarId: 3,
       badgeLabel: 'Friends',
       badgeBg: '#E0F2FE',
       badgeText: '#0284C7',
       avatarBorder: '#0284C7',
       percentageColor: '#0284C7',
     },
-    {
-      id: '3',
-      name: 'solarsister',
-      chemistry: '31% chemistry',
-      time: '3 days ago',
-      percentage: '31%',
-      avatarId: 8,
-      badgeLabel: 'Passed',
-      badgeBg: '#F3F4F6',
-      badgeText: '#6B7280',
-      avatarBorder: '#C0BFDA',
-      percentageColor: '#8E8E93',
-    },
   ];
 
   return (
     <Screen noPadding edges={['top']} style={styles.container}>
       <StatusBar style="dark" />
+      {/* 1. Header Top Bar */}
+      <View style={styles.topBar}>
+        <View style={styles.userInfo}>
+          <IllustrationAvatar id={3} size={44} circle style={styles.headerAvatar} />
+          <View style={styles.greeting}>
+            <Text style={styles.greetingText}>Good evening</Text>
+            <Text style={styles.username}>stargazer_92</Text>
+          </View>
+        </View>
+        <View style={styles.headerActions}>
+          <View style={styles.iconBtnWrap}>
+            <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
+              <Feather name="bell" size={20} color="#8E8E93" />
+            </TouchableOpacity>
+            <View style={styles.badgeDot} />
+          </View>
+          <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
+            <Feather name="settings" size={20} color="#8E8E93" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* 1. Header Top Bar */}
-        <View style={styles.topBar}>
-          <View style={styles.userInfo}>
-            <IllustrationAvatar id={2} size={44} circle style={styles.headerAvatar} />
-            <View style={styles.greeting}>
-              <Text style={styles.greetingText}>Good evening</Text>
-              <Text style={styles.username}>stargazer_92</Text>
+        {/* 2. Open Right Now Card */}
+        <View style={styles.openRightNowCard}>
+          {/* Top Header Section (Dark Black/Navy) */}
+          <View style={styles.cardHeaderDark}>
+            <View style={styles.liveIndicator}>
+              <View style={styles.liveDotSolid} />
+              <Text style={styles.liveTextDark}>LIVE</Text>
+            </View>
+            <View style={styles.waitPillDark}>
+              <Text style={styles.waitTextDark}>~ 42 sec wait</Text>
             </View>
           </View>
-          <View style={styles.headerActions}>
-            <View style={styles.iconBtnWrap}>
-              <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
-                <Feather name="bell" size={20} color="#8E8E93" />
-              </TouchableOpacity>
-              <View style={styles.badgeDot} />
+
+          {/* Body Section (White) */}
+          <View style={styles.cardBodyWhite}>
+            <View style={styles.waitingContainer}>
+              <View style={styles.avatarStack}>
+                {[3, 5, 2, 7].map((avatarId, i) => (
+                  <View key={avatarId} style={{ marginLeft: i === 0 ? 0 : -8, zIndex: 5 - i }}>
+                    <IllustrationAvatar id={avatarId} size={28} circle style={styles.stackedAvatar} />
+                  </View>
+                ))}
+                {/* More badge */}
+                <View style={[styles.moreBadge, { marginLeft: -8, zIndex: 1 }]}>
+                  <Text style={styles.moreBadgeText}>+142</Text>
+                </View>
+              </View>
             </View>
-            <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
-              <Feather name="settings" size={20} color="#8E8E93" />
+
+            <Text style={styles.lookingHeadline}>147 looking right now.</Text>
+            <Text style={styles.lookingSub}>Your seat is waiting — most pair in under a minute.</Text>
+          </View>
+
+          {/* Bottom Section (White) */}
+          <View style={styles.cardBottomSection}>
+            <View style={styles.dotsContainer}>
+              <View style={styles.dotsRow}>
+                <View style={[styles.indicatorDot, styles.dotPurple]} />
+                <View style={[styles.indicatorDot, styles.dotPurple]} />
+                <View style={[styles.indicatorDot, styles.dotMuted]} />
+              </View>
+              <Text style={styles.dotsText}>2 of 3 left</Text>
+            </View>
+
+            <TouchableOpacity style={styles.takeSeatBtn} activeOpacity={0.85}>
+              <Text style={styles.takeSeatBtnText}>Take a seat</Text>
+              <Feather name="arrow-right" size={15} color="#FFFFFF" style={{ marginLeft: 6 }} />
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* 2. Open Right Now Card */}
-        <View style={styles.openRightNowCard}>
-          {/* Top section: stats & counts */}
-          <View style={styles.cardHeaderRow}>
-            {/* Left Col */}
-            <View style={styles.cardHeaderLeft}>
-              <Text style={styles.openRightNowLabel}>OPEN RIGHT NOW</Text>
-              <Text style={styles.hugeNumber}>23</Text>
-              <Text style={styles.peopleLagosText}>people in Lagos</Text>
-            </View>
-            
-            {/* Right Col */}
-            <View style={styles.cardHeaderRight}>
-              <View style={styles.countRow}>
-                <View style={[styles.dotMarker, { backgroundColor: '#10B981' }]} />
-                <Text style={styles.countText}>14 women</Text>
-              </View>
-              <View style={styles.countRow}>
-                <View style={[styles.dotMarker, { backgroundColor: '#6C3CE1' }]} />
-                <Text style={styles.countText}>9 men</Text>
-              </View>
-              <Text style={styles.avgWaitText}>avg wait 45s</Text>
-            </View>
+        {/* 2.5 Rooms Live Card */}
+        <TouchableOpacity style={styles.roomsLiveCard} activeOpacity={0.9}>
+          <View style={styles.roomsIconContainer}>
+            <Ionicons name="book" size={20} color="#6C3CE1" />
           </View>
-
-          {/* Separation line */}
-          <View style={styles.openCardDivider} />
-
-          {/* Middle section: waiting list overlapping illustrated avatars */}
-          <View style={styles.waitingContainer}>
-            <View style={styles.avatarStack}>
-              {[1, 4, 7, 3, 5].map((avatarId, i) => (
-                <View key={avatarId} style={{ marginLeft: i === 0 ? 0 : -10, zIndex: 5 - i }}>
-                  <IllustrationAvatar id={avatarId} size={32} circle style={styles.stackedAvatar} />
-                </View>
-              ))}
-            </View>
-            <Text style={styles.waitingText}>and 18 more waiting</Text>
+          <View style={styles.roomsTextContainer}>
+            <Text style={styles.roomsTitle}>2 rooms live right now</Text>
+            <Text style={styles.roomsSubtitle}>34 people watching · join the queue</Text>
           </View>
-
-          {/* Join button */}
-          <TouchableOpacity style={styles.joinSeatBtn} activeOpacity={0.8}>
-            <Text style={styles.joinSeatBtnText}>Join them — open my seat</Text>
-          </TouchableOpacity>
-
-          {/* Bottom text */}
-          <Text style={styles.seatsLeftText}>2 seats left today</Text>
-        </View>
+          <View style={styles.watchButton}>
+            <Text style={styles.watchText}>Watch</Text>
+            <Feather name="arrow-right" size={14} color="#6C3CE1" style={{ marginLeft: 4 }} />
+          </View>
+        </TouchableOpacity>
 
         {/* 3. Your dates Section */}
         <View style={styles.sectionHeader}>
@@ -205,7 +209,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F9FE',
   },
   scroll: {
     paddingBottom: spacing.xxl,
@@ -219,6 +223,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 12 : 16,
     paddingBottom: 16,
+    backgroundColor: '#F8F9FE',
   },
   userInfo: {
     flexDirection: 'row',
@@ -253,14 +258,16 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#F2F2F7',
+    borderWidth: 1.5,
+    borderColor: '#EFEBFF',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
   badgeDot: {
     position: 'absolute',
-    top: 2,
-    right: 2,
+    top: 0,
+    right: 0,
     width: 8,
     height: 8,
     borderRadius: 4,
@@ -272,75 +279,59 @@ const styles = StyleSheet.create({
   // Open Right Now Card
   openRightNowCard: {
     marginHorizontal: 16,
-    padding: 20,
     backgroundColor: '#FFFFFF',
-    borderRadius: 24,
+    borderRadius: 28,
     borderWidth: 1.5,
-    borderColor: '#E5E0FA',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.02,
-    shadowRadius: 8,
-    elevation: 2,
+    borderColor: '#6C3CE1',
+    overflow: 'hidden',
+    shadowColor: '#6C3CE1',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 3,
     marginBottom: 20,
   },
-  cardHeaderRow: {
+  cardHeaderDark: {
+    backgroundColor: '#0A0A14',
+    height: 48,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  cardHeaderLeft: {
-    flex: 1,
-  },
-  openRightNowLabel: {
-    fontFamily: fontFamily.bold,
-    fontSize: 11,
-    color: '#A899E6',
-    letterSpacing: 0.5,
-  },
-  hugeNumber: {
-    fontFamily: fontFamily.bold,
-    fontSize: 48,
-    color: '#0D0D1A',
-    marginTop: 4,
-    lineHeight: 48,
-  },
-  peopleLagosText: {
-    fontFamily: fontFamily.medium,
-    fontSize: 15,
-    color: '#8E8E93',
-    marginTop: 4,
-  },
-  cardHeaderRight: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-    paddingTop: 4,
-  },
-  countRow: {
+  liveIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    gap: 6,
   },
-  dotMarker: {
+  liveDotSolid: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginRight: 6,
+    backgroundColor: '#10B981',
   },
-  countText: {
-    fontFamily: fontFamily.medium,
-    fontSize: 13,
+  liveTextDark: {
+    fontFamily: fontFamily.bold,
+    fontSize: 12,
+    color: '#10B981',
+    letterSpacing: 0.5,
+  },
+  waitPillDark: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  waitTextDark: {
+    fontFamily: fontFamily.bold,
+    fontSize: 11,
     color: '#8E8E93',
   },
-  avgWaitText: {
-    fontFamily: fontFamily.medium,
-    fontSize: 11,
-    color: '#C0BFDA',
-    marginTop: 2,
-  },
-  openCardDivider: {
-    height: 1.5,
-    backgroundColor: '#F5F3FF',
-    marginVertical: 16,
+  cardBodyWhite: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 22,
   },
   waitingContainer: {
     flexDirection: 'row',
@@ -351,35 +342,133 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  waitingText: {
-    fontFamily: fontFamily.medium,
-    fontSize: 14,
-    color: '#8E8E93',
-    marginLeft: 12,
+  stackedAvatar: {
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: '#FFFFFF',
+    overflow: 'hidden',
   },
-  joinSeatBtn: {
-    backgroundColor: '#6C3CE1',
-    paddingVertical: 14,
-    borderRadius: 16,
+  moreBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#F3EFFF',
+    borderWidth: 1.5,
+    borderColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#6C3CE1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 3,
   },
-  joinSeatBtnText: {
+  moreBadgeText: {
     fontFamily: fontFamily.bold,
-    fontSize: 16,
+    fontSize: 9,
+    color: '#6C3CE1',
+  },
+  lookingHeadline: {
+    fontFamily: fontFamily.bold,
+    fontSize: 22,
+    color: '#0D0D1A',
+    marginBottom: 6,
+  },
+  lookingSub: {
+    fontFamily: fontFamily.medium,
+    fontSize: 13,
+    color: '#8E8E93',
+    lineHeight: 18,
+  },
+  cardBottomSection: {
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1.5,
+    borderTopColor: '#EFEBFF',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  dotsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  indicatorDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 4,
+  },
+  dotPurple: {
+    backgroundColor: '#6C3CE1',
+  },
+  dotMuted: {
+    backgroundColor: '#E5E0FA',
+  },
+  dotsText: {
+    fontFamily: fontFamily.medium,
+    fontSize: 13,
+    color: '#8E8E93',
+  },
+  takeSeatBtn: {
+    backgroundColor: '#6C3CE1',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 16,
+  },
+  takeSeatBtnText: {
+    fontFamily: fontFamily.bold,
+    fontSize: 14,
     color: '#FFFFFF',
   },
-  seatsLeftText: {
+
+  // Rooms Live Card
+  roomsLiveCard: {
+    marginHorizontal: 16,
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#EFEBFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  roomsIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#F3EFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  roomsTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  roomsTitle: {
+    fontFamily: fontFamily.bold,
+    fontSize: 15,
+    color: '#0D0D1A',
+    marginBottom: 2,
+  },
+  roomsSubtitle: {
     fontFamily: fontFamily.medium,
     fontSize: 12,
-    color: '#C0BFDA',
-    textAlign: 'center',
-    marginTop: 10,
+    color: '#8E8E93',
+  },
+  watchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  watchText: {
+    fontFamily: fontFamily.bold,
+    fontSize: 14,
+    color: '#6C3CE1',
   },
 
   // Section Styling
@@ -405,30 +494,19 @@ const styles = StyleSheet.create({
   // Date Cards
   dateCard: {
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#e8e8eeff',
-    borderRadius: 16,
-    padding: 12,
+    borderWidth: 1.5,
+    borderColor: '#EFEBFF',
+    borderRadius: 20,
+    padding: 14,
     marginHorizontal: 16,
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.02,
-    shadowRadius: 4,
-    elevation: 1,
   },
   dateAvatar: {
     borderWidth: 2,
     borderRadius: 999,
     marginRight: 12,
-    overflow: 'hidden',
-  },
-  stackedAvatar: {
-    borderRadius: 999,
-    borderWidth: 1.5,
-    borderColor: '#FFFFFF',
     overflow: 'hidden',
   },
   dateDetails: {
@@ -465,18 +543,18 @@ const styles = StyleSheet.create({
 
   // Question Card & Chips
   questionCard: {
-    backgroundColor: '#F8F6FF',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    padding: 20,
     marginHorizontal: 16,
     marginBottom: 32,
-    borderWidth: 1,
-    borderColor: '#EDE9FE',
+    borderWidth: 1.5,
+    borderColor: '#EFEBFF',
   },
   questionLabel: {
     fontFamily: fontFamily.bold,
-    fontSize: 11,
-    color: '#A78BFA',
+    fontSize: 12,
+    color: '#A899E6',
     letterSpacing: 0.5,
   },
   questionText: {
@@ -496,16 +574,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 18,
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   chipSelected: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F3EFFF',
     borderColor: '#6C3CE1',
-    borderWidth: 1.5,
   },
   chipUnselected: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#E5E7EB',
+    borderColor: '#EFEBFF',
   },
   chipText: {
     fontSize: 13,
@@ -516,6 +593,6 @@ const styles = StyleSheet.create({
   },
   chipTextUnselected: {
     fontFamily: fontFamily.medium,
-    color: '#9CA3AF',
+    color: '#8E8E93',
   },
 });

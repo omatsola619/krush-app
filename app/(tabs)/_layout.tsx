@@ -12,6 +12,12 @@ function TabBarButton({ state, descriptors, navigation }: any) {
     <View style={styles.tabBar}>
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
+        
+        // Filter out any hidden screens
+        if (options.href === null) {
+          return null;
+        }
+
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -20,7 +26,6 @@ function TabBarButton({ state, descriptors, navigation }: any) {
             : route.name;
 
         const isFocused = state.index === index;
-        const isCenter = route.name === 'play';
 
         const onPress = () => {
           const event = navigation.emit({
@@ -34,27 +39,6 @@ function TabBarButton({ state, descriptors, navigation }: any) {
           }
         };
 
-        if (isCenter) {
-          return (
-            <TouchableOpacity
-              key={index}
-              onPress={onPress}
-              activeOpacity={0.8}
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              style={styles.centerBtnWrap}
-            >
-              <View style={[styles.centerBtn, isFocused && styles.centerBtnActive]}>
-                <FontAwesome5 name="chair" size={20} color="#FFFFFF" />
-              </View>
-              <Text style={[styles.tabLabel, { color: isFocused ? '#6C3CE1' : '#8E8E93', fontFamily: fontFamily.bold }]}>
-                {label.toUpperCase()}
-              </Text>
-            </TouchableOpacity>
-          );
-        }
-
         // Render standard tab button
         let IconComponent = Feather;
         let iconName: any = 'home';
@@ -64,8 +48,6 @@ function TabBarButton({ state, descriptors, navigation }: any) {
         } else if (route.name === 'friends') {
           IconComponent = Ionicons;
           iconName = isFocused ? 'book' : 'book-outline';
-        } else if (route.name === 'matches') {
-          iconName = 'heart';
         } else if (route.name === 'profile') {
           iconName = 'user';
         }
@@ -105,10 +87,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'Home' }} />
       <Tabs.Screen name="friends" options={{ title: 'Rooms' }} />
-      <Tabs.Screen name="play" options={{ title: 'Date' }} />
-      <Tabs.Screen name="matches" options={{ title: 'Matches' }} />
       <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
-      <Tabs.Screen name="explore" options={{ href: null }} />
       <Tabs.Screen name="modal" options={{ href: null }} />
     </Tabs>
   );
@@ -140,27 +119,5 @@ const styles = StyleSheet.create({
     fontSize: 9,
     marginTop: 4,
     letterSpacing: 0.5,
-  },
-  centerBtnWrap: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centerBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#6C3CE1',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: -32, // floats beautifully above bar
-    shadowColor: '#6C3CE1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  centerBtnActive: {
-    backgroundColor: '#5322C7',
   },
 });
