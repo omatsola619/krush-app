@@ -46,8 +46,8 @@ function TabBarButton({ state, descriptors, navigation }: any) {
         if (route.name === 'index') {
           iconName = 'home';
         } else if (route.name === 'friends') {
-          IconComponent = Ionicons;
-          iconName = isFocused ? 'book' : 'book-outline';
+          IconComponent = FontAwesome5;
+          iconName = 'door-open';
         } else if (route.name === 'profile') {
           iconName = 'user';
         }
