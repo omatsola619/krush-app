@@ -16,7 +16,11 @@ export default function WelcomeScreen() {
       
       {/* Top Language Bar */}
       <View style={styles.header}>
-        <TouchableOpacity activeOpacity={0.8} style={styles.langBtn}>
+        <TouchableOpacity 
+          activeOpacity={0.8} 
+          style={styles.langBtn}
+          onPress={() => router.replace('/(tabs)')}
+        >
           <Feather name="globe" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
           <Text style={styles.langText}>English</Text>
         </TouchableOpacity>
