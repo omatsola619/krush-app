@@ -298,6 +298,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
+    marginTop: -2,
+    marginLeft: -2,
+    marginRight: -2,
+    borderTopLeftRadius: 26,
+    borderTopRightRadius: 26,
   },
   liveIndicator: {
     flexDirection: 'row',
