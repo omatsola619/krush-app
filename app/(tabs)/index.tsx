@@ -1,8 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, Screen } from '../../components';
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { IllustrationAvatar, Screen } from '../../components';
 import { spacing } from '../../constants/spacing';
 import { fontFamily } from '../../constants/typography';
 
@@ -17,7 +17,7 @@ export default function HomeScreen() {
       chemistry: '72% chemistry',
       time: 'yesterday',
       percentage: '72%',
-      avatar: require('../../assets/images/avatar_1.png'),
+      avatarId: 3,
       badgeLabel: 'Matched',
       badgeBg: '#E2F8EE',
       badgeText: '#10B981',
@@ -30,7 +30,7 @@ export default function HomeScreen() {
       chemistry: '58% chemistry',
       time: '2 days ago',
       percentage: '58%',
-      avatar: require('../../assets/images/avatar_2.png'),
+      avatarId: 6,
       badgeLabel: 'Friends',
       badgeBg: '#E0F2FE',
       badgeText: '#0284C7',
@@ -43,7 +43,7 @@ export default function HomeScreen() {
       chemistry: '31% chemistry',
       time: '3 days ago',
       percentage: '31%',
-      avatar: require('../../assets/images/avatar_1.png'), // fallback illustration
+      avatarId: 8,
       badgeLabel: 'Passed',
       badgeBg: '#F3F4F6',
       badgeText: '#6B7280',
@@ -59,7 +59,7 @@ export default function HomeScreen() {
         {/* 1. Header Top Bar */}
         <View style={styles.topBar}>
           <View style={styles.userInfo}>
-            <Avatar size={40} source={require('../../assets/images/avatar_2.png')} status="none" />
+            <IllustrationAvatar id={2} size={44} circle style={styles.headerAvatar} />
             <View style={styles.greeting}>
               <Text style={styles.greetingText}>Good evening</Text>
               <Text style={styles.username}>stargazer_92</Text>
@@ -106,14 +106,14 @@ export default function HomeScreen() {
           {/* Separation line */}
           <View style={styles.openCardDivider} />
 
-          {/* Middle section: waiting list overlapping avatars */}
+          {/* Middle section: waiting list overlapping illustrated avatars */}
           <View style={styles.waitingContainer}>
             <View style={styles.avatarStack}>
-              <View style={[styles.avatarCircle, { backgroundColor: '#D1A153', zIndex: 5 }]} />
-              <View style={[styles.avatarCircle, { backgroundColor: '#5C3E35', zIndex: 4, marginLeft: -10 }]} />
-              <View style={[styles.avatarCircle, { backgroundColor: '#FDE68A', zIndex: 3, marginLeft: -10 }]} />
-              <View style={[styles.avatarCircle, { backgroundColor: '#FCD34D', zIndex: 2, marginLeft: -10 }]} />
-              <View style={[styles.avatarCircle, { backgroundColor: '#3E2723', zIndex: 1, marginLeft: -10 }]} />
+              {[1, 4, 7, 3, 5].map((avatarId, i) => (
+                <View key={avatarId} style={{ marginLeft: i === 0 ? 0 : -10, zIndex: 5 - i }}>
+                  <IllustrationAvatar id={avatarId} size={32} circle style={styles.stackedAvatar} />
+                </View>
+              ))}
             </View>
             <Text style={styles.waitingText}>and 18 more waiting</Text>
           </View>
@@ -137,10 +137,13 @@ export default function HomeScreen() {
 
         {dates.map((item) => (
           <TouchableOpacity key={item.id} activeOpacity={0.9} style={styles.dateCard}>
-            {/* Avatar inside purple/blue/grey border */}
-            <View style={[styles.avatarContainer, { borderColor: item.avatarBorder }]}>
-              <Image source={item.avatar} style={styles.avatarImage} />
-            </View>
+            {/* Illustrated avatar with coloured ring */}
+            <IllustrationAvatar
+              id={item.avatarId}
+              size={48}
+              circle
+              style={[styles.dateAvatar, { borderColor: item.avatarBorder }]}
+            />
 
             <View style={styles.dateDetails}>
               <Text style={styles.dateName}>{item.name}</Text>
@@ -221,6 +224,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12
+  },
+  headerAvatar: {
+    borderRadius: 999,
+    overflow: 'hidden',
   },
   greeting: {
     gap: 1
@@ -344,13 +351,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  avatarCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
-  },
   waitingText: {
     fontFamily: fontFamily.medium,
     fontSize: 14,
@@ -419,24 +419,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 1,
   },
-  avatarContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+  dateAvatar: {
     borderWidth: 2,
-    padding: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8F7FF',
+    borderRadius: 999,
+    marginRight: 12,
+    overflow: 'hidden',
   },
-  avatarImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 20,
+  stackedAvatar: {
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: '#FFFFFF',
+    overflow: 'hidden',
   },
   dateDetails: {
     flex: 1,
-    marginLeft: 12,
   },
   dateName: {
     fontFamily: fontFamily.bold,

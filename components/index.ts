@@ -5,6 +5,7 @@ export * from './ui/Chip';
 export * from './ui/Badge';
 export * from './ui/Toggle';
 export * from './ui/Avatar';
+export * from './ui/IllustrationAvatar';
 
 // Layout Components
 export * from './layout/Screen';
